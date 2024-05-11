@@ -23,6 +23,17 @@ const ManageProducts = () => {
             setProducts(result);
         }
     }
+    const changeStatus = async (ID,STATUS) =>{
+        let result = await fetch('http://localhost:5000/statusChange/' + ID + '/' + STATUS,{
+            method: 'put',
+            headers:{
+                'Content-Type':'application/json'
+            }
+        });
+        if(result){
+            console.log("Success");
+        }
+    }
     return (
         <div className="container mb-5">
             <div className="h1 mt-5 text-center">Manage Products</div>
@@ -42,7 +53,12 @@ const ManageProducts = () => {
                 </div>
                 <div className="col-md-2 col-10">
                     <Link to = {"/add-product/" + item._id }><button className='btn btn-primary mt-1'  type='button'>Edit</button></Link>
-                    <button className='mt-2 btn btn-danger' type='button'>Delete</button>
+                    <button 
+                        className='mt-2 btn btn-danger' 
+                        type='button' 
+                        onClick={() => changeStatus(item._id, item.Status === 'Inactive' ? 'Active' : 'Inactive')}>
+                        {item.Status === 'Inactive' ? 'Active' : 'Inactive'}
+                    </button>
                 </div>
                </div>
             </div>

@@ -83,11 +83,11 @@ const CartProductInner = () => {
                                     <div className='col-12'>
                                         <h2>{cartItem.title}</h2>
                                     </div>
-                                    <div className='col-12'>
-                                        <h5>{cartItem.discount_price}</h5>
+                                    <div className='col-12 mb-0 pb-0'>
+                                        <h5>Rs: {cartItem.discount_price}</h5>
                                     </div>
-                                    <div className='col-12'>
-                                        <del>{cartItem.price}</del>
+                                    <div className='col-12 mt-0 pt-0'>
+                                        <del>Rs: {cartItem.price}</del>
                                     </div>
                                     <div className='col-12'>
                                         <h6>{"Rating: " + cartItem.rating}</h6>

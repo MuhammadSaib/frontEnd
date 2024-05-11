@@ -21,8 +21,7 @@ const Cards = ({data}) => {
         return imageSource;
     }
     useEffect(() => {
-        console.log(data);
-        // console.log(props.data.rating);
+        data = data.filter(item => item.Status !== 'Inactive');
         if(data && data.rating){
            setStar(data.rating);
         }
@@ -35,9 +34,10 @@ const Cards = ({data}) => {
          <div className="h1 mb-5 mt-5 text-center pt-3 p-2">Products</div>
           <div className="row" >
             {data && data.map((item) => (
-                <div className="col-lg-2 col-xl-2 col-md-3 col-sm-12 col-xs-12 col-12"  key={item._id}>
-                    <Link  style={{ textDecoration: 'none' }} to={"/cardDetail/" + item._id}><div className="p-2 mt-4  cart" >
-                    <img src={`http://localhost:5000/${item.photos[0]}`} className="img-fluid" alt="There is an image" />
+                <div className="col-lg-2 col-xl-2 col-md-3 col-sm-12 col-xs-12 col-12"   key={item._id}>
+                     <Link  style={{ textDecoration: 'none' }} className={`${item.Status === 'Sold Out' ? 'sold-out' : ''}`} to={"/cardDetail/" + item._id}><div className="p-2 mt-4  cart" >
+                    {item.Status === 'Sold Out' && <span className="">Sold Out</span>}
+                    <img src={`http://localhost:5000/${item.photos[0]}`} width="160px" height="150px" alt="There is an image" />
                     <p className="text-black title mt-1">{item.title}</p>
                     <div className="d-flex text-green">
                         <h5>Rs.</h5>
