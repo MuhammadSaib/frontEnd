@@ -2,7 +2,83 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 import { Navbar, Nav, NavDropdown,Row,Col,Button } from 'react-bootstrap';
 import './Enter.css';
+import { useState } from 'react';
 const Enter = ({titleData,btnData,flag}) => {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [ConfirmPassword, setConfirmPassword] = useState('');
+    const [contact_no, setNumber] = useState('');
+    const [address, setAddress] = useState('');
+    const submit = async () =>{
+        if(flag){
+            if(password === ConfirmPassword){
+              let obj = {name:name, email:email,password:password,contact_no:contact_no,address:address};
+              let result = await fetch ('http://localhost:5000/user-register',{
+                method:'post',
+                body:JSON.stringify(obj),
+                headers:{
+                    'Content-Type':'application/json'
+                },
+              });
+              if(result){
+                result = await result.json();
+                if(result.result === 'Already Registered'){
+                    alert('Already Registered');
+                }
+                else{
+                    localStorage.setItem('user',JSON.stringify(result));
+                    setName("");
+                    setEmail("");
+                    setPassword("");
+                    setConfirmPassword("");
+                    setNumber("");
+                    setAddress("");
+                    alert('Customer Registered Successfully');
+                }
+              }
+              else{
+                alert('Error');
+              }
+            }
+            else{
+                alert('PLease varify the password')
+            }
+        }
+        else{
+            let obj = {email:email,password:password};
+            let result = await fetch ('http://localhost:5000/user-login',{
+                method:'post',
+                body:JSON.stringify(obj),
+                headers:{
+                    'Content-Type':'application/json'
+                },
+              });
+            if(result){
+                result = await result.json();
+                if(result.result === 'Not Found'){
+                    alert('Not Found');
+                }
+                else if (result.result === 'Enter Correct Info'){
+                    alert('Enter Correct Info')
+                }
+                else{
+                    localStorage.setItem('user',JSON.stringify(result));
+                    console.log(result);
+                    setName("");
+                    setEmail("");
+                    setPassword("");
+                    setConfirmPassword("");
+                    setNumber("");
+                    setAddress("");
+                    alert('User Logged in Successfully');
+                }
+            }
+            else{
+                alert('Error');
+              }
+        }
+    }
     return ( 
         <div className="row mb-5 pb-5" style={{overflow:'hidden'}}>
             <div className="col-lg-6 col-md-12 col-sm-12 col-12 col-xs-12">
@@ -30,26 +106,37 @@ const Enter = ({titleData,btnData,flag}) => {
                 </div>
             </div> 
             <div className="col-lg-6 col-xl-6 col-md-12 col-xs-12 col-sm-12 col-12">     
-                <div className="row mt-lg-5 pt-lg-5 justify-content-center">  
+                <div className="row mt-4 pt-4 justify-content-center">  
                    <div className="col-10" >  
-                    <form action="">
                         <div className="" >
-                        <div className="mt-3 pt-4" >
-                         <div className="h3 text-center mb-4 ">{titleData}</div>   
-                            <label htmlFor="" class="h6 ">Enter Email</label>
-                            <input className='form-control' type="text" placeholder='@gmail.com' />
+                        <div className="mt-0 pt-0" >
+                      
+                         <div className="h3 text-center mb-4 ">{titleData}</div>  
+                         {flag && <div className="mt-2 mb-2">
+                            <label htmlFor="" className="h6 ">Enter Name</label>
+                            <input className='form-control' value={name} onChange={(e)=>{setName(e.target.value)}}  type="text" placeholder='Name'/>
+                        </div>} 
+                            <label htmlFor="" className="h6 ">Enter Email</label>
+                            <input className='form-control'  value={email} onChange={(e)=>{setEmail(e.target.value)}} type="text" placeholder='@gmail.com' />
                         </div>
-                        <div className="mt-5 ">
-                            <label htmlFor="" class="h6 ">Enter Password</label>
-                            <input className='form-control'  type="password" placeholder='Password'/>
+                        <div className="mt-2">
+                            <label htmlFor="" className="h6 ">Enter Password</label>
+                            <input className='form-control'  value={password} onChange={(e)=>{setPassword(e.target.value)}}  type="password" placeholder='Password'/>
                         </div>
-                        {flag && <div className="mt-5">
-                            <label htmlFor="" class="h6 ">Confirm Password</label>
-                            <input className='form-control'  type="password" placeholder='Password'/>
+                        {flag && <div className="mt-2">
+                            <label htmlFor="" className="h6 ">Confirm Password</label>
+                            <input className='form-control'  value={ConfirmPassword} onChange={(e)=>{setConfirmPassword(e.target.value)}}  type="password" placeholder='Confirm Password'/>
                         </div>}
-                        <div className="mt-5 text-center"><button style={{border:'none'}} class="p-2 rounded text-white bgGreen">{btnData}</button></div>
+                        {flag && <div className="mt-2">
+                            <label htmlFor="" className="h6 ">Contact Number</label>
+                            <input className='form-control' value={contact_no} onChange={(e)=>{setNumber(e.target.value)}}  type="text" placeholder='Contact Number'/>
+                        </div>}
+                        {flag && <div className="mt-2">
+                            <label htmlFor="" className="h6 ">Address</label>
+                            <input className='form-control' value={address} onChange={(e)=>{setAddress(e.target.value)}}  type="text" placeholder='Address'/>
+                        </div>}
+                        <div className="mt-2 text-center"><button style={{border:'none'}} onClick={submit} className="p-2 rounded text-white bgGreen">{btnData}</button></div>
                         </div>
-                    </form>
                     </div>
                 </div>
             </div>

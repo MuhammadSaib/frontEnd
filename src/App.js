@@ -4,18 +4,52 @@ import './App.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import Cards from './Components/Cards';
 import AddProduct from './Components/AddProduct';
+import Cart from './Cart.js';
+import CartDetail from './CartProductInner.js';
+import { useState,useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './Login';
 import Signup from './Signup';
 import { Link } from 'react-router-dom';
 import Carousel from './Carousel';
-import Categories from './Categories'
+import Categories from './Categories';
+import SellerRegister from './SellerRegister';
+import SellerLogin from './SellerLogin';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { faCreditCard, faMoneyCheckAlt } from '@fortawesome/free-solid-svg-icons';
+import ManageProducts from './ManageProducts.js';
 
 
 function App() {
+  const [products,setProducts] = useState([]);
+useEffect(()=>{
+  getProducts();
+
+},[]);
+  const dataa = [
+    { id: "1", title: "Product Title", image: 'images/carts.jpg', highlights: 'Product highlights', quantity: 0 },
+    { id: "2", title: "Product Title", image: 'images/carts.jpg', highlights: 'Product highlights', quantity: 0 },
+    { id: "3", title: "Product Title", image: 'images/carts.jpg', highlights: 'Product highlights', quantity: 0 }
+  ];
+  const dataa2 = [
+    {
+        id: "1",
+        title: "Product Title",
+        image: 'images/carts.jpg',
+        highlights: 'Product highlights',
+        quantity: 1,
+        customerAddress: "123 Main St, City",
+        storeName: "AK Mobile Store",
+        deliveryDays: "Monday - Friday",
+        deliveryCharges: 5.99,
+        payment: "Cash on delivery",
+        price: 19.99,
+        discountPrice: 15.99,
+        rating: 4.3
+    }
+  ];
+  
   const images = [
     'images/img1.jpeg',
     'images/img2.jpeg',
@@ -23,73 +57,36 @@ function App() {
 ];
 
 let data1 = [
-    { id: "C1", name: 'Electronics', img: 'images/img3.jpeg'},
-    { id: "C2", name: 'Beauty', img: 'images/img3.jpeg'},
-    { id: "C3", name: 'Mobiles', img: 'images/img3.jpeg'},
-];
-for (let i = 0; i < 12; i++) {
-  data1.push({ id: `C${i + 4}`, name: 'Electronics', img: 'images/img3.jpeg' });
-}
-  // Initial data
-let data = [
-  {
-      img: 'images/card1.webp',
-      title: "Gothic Portrait Print T-shirt Aesthetic Y2K Crop Tops Short Sleevle Vest Tees Harajuku Streetwear White Suspenders Women Clothes",
-      price: '5700',
-      star:5
-  },
-  {
-      img: 'images/card1.webp',
-      title: "Gothic Portrait  Tees Har",
-      price: '5700',
-      star:4.5
-  },
-  {
-      img: 'images/card1.webp',
-      title: "Gothic Portrait Print Vest Tees Harajuku Streetwear White Suspenders Women Clothes",
-      price: '5700',
-      star:0
-  },
-  {
-      img: 'images/card1.webp',
-      title: "Gothic Portrae Vest Tees Harajuku Streetwear White Suspenders Women Clothes",
-      price: '5700',
-      star:2
-  },
-  {
-      img: 'images/card1.webp',
-      title: "Gothic Po Vest Tees Harajuku Streetwear White Suspenders Women Clothes",
-      price: '5700',
-      star:4
-  },
-  {
-      img: 'images/card1.webp',
-      title: "title6",
-      price: '5700',
-      star: 3
-  },
-  {
-      img: 'images/card1.webp',
-      title: "title7",
-      price: '5700',
-      star: 1
-  },
+    { id: "C1", name: 'Mobiles', img: 'images/img3.jpeg'},
+    { id: "C2", name: 'Accessories', img: 'images/img3.jpeg'},
+    { id: "C3", name: 'Laptops', img: 'images/img3.jpeg'},
+    { id: "C4", name: 'Beauty', img: 'images/img3.jpeg'},
+    { id: "C5", name: 'Electronics', img: 'images/img3.jpeg'},
+    { id: "C6", name: 'Kitchen', img: 'images/img3.jpeg'},
+    { id: "C7", name: 'Furniture', img: 'images/img3.jpeg'},
+    { id: "C8", name: 'Sports', img: 'images/img3.jpeg'},
+    { id: "C9", name: 'Groceries', img: 'images/img3.jpeg'},
+    { id: "C10", name: 'Fashion', img: 'images/img3.jpeg'},
+    { id: "C11", name: 'Decoration', img: 'images/img3.jpeg'},
+    { id: "C12", name: 'Books', img: 'images/img3.jpeg'},
 ];
 
-// Generate more data
-for (let i = 0; i < 93; i++) {
-  data.push({
-      img: 'images/card1.webp',
-      title: `Title ${i + 8}`, // Incrementing from 8 to 100
-      price: '5700',
-      star:2.5
+
+
+const getProducts = async()=>{
+    let result = await fetch('http://localhost:5000/get-products',{
+      method:'get',
+      headers:{
+          'Content-Type':'application/json'
+      },
   });
+  if(result.ok){
+    result =  await result.json();
+    setProducts(result);
+  }
 }
-
-console.log(data.length); // Should output 100
-
-  return (
-   
+return (
+  
     <div className="App m-0 p-0">
      <Router>
      {/* <================ Header section Navbar start ===============> */}
@@ -112,21 +109,23 @@ console.log(data.length); // Should output 100
               <div className="fs-5" >
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav" className=" m-0 p-0">
-                  <Nav className="m-0">
-                    <div className="m-2">
+                  <Nav className="mt-1 p-0">
+                   <Link to="/cart"><div className="m-2">
                       <i className="color-white fas fa-shopping-cart"></i>
                     </div>
+                    </Link>
                     <div className="ms-2">
-                      <Nav.Link href="#pricing" className="color-white">Pricing</Nav.Link>
+                      <Nav.Link href="/seller-register" className="fs-6 color-white">Become a seller</Nav.Link>
                     </div>
                   </Nav>
                   <Nav className="m-0 p-0">
                     <div className="ms-1">
-                      <Nav.Link href="/login" className="color-white">Login</Nav.Link>
+                      <Nav.Link href="/login" className="fs-6 color-white">Login</Nav.Link>
                     </div>
                     <div className="ms-1">
-                      <Nav.Link href="/signup" className="color-white">Register</Nav.Link>
+                      <Nav.Link href="/signup" className="fs-6  color-white">Register</Nav.Link>
                     </div>
+
                   </Nav>
                 </Navbar.Collapse>
               </div>
@@ -151,10 +150,16 @@ console.log(data.length); // Should output 100
           </div>
         </div>
         <Categories data={data1} />
-        <Cards data={data} />
+        <Cards data={products} />
         </>
       } />
+        <Route  path="/manage-products" element={<ManageProducts/> }/>
+        <Route  path="/seller-register" element={<SellerRegister/> }/>
+        <Route  path="/seller-login" element={<SellerLogin/> }/>
+        <Route  path="/cart" element={<Cart/> }/>
+        <Route path="/cardDetail/:id" element={<CartDetail/>}/>
         <Route path="/add-product" element={<AddProduct/>}/>
+        <Route path="/add-product/:id" element={<AddProduct/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
     </Routes>
