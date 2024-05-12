@@ -26,6 +26,7 @@ const SellerLogin = () =>{
             }
             else{
                 localStorage.setItem('seller',JSON.stringify(result));
+                localStorage.removeItem('user');
                 alert('Seller Logged in Successfully')
             }
         }

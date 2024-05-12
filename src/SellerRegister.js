@@ -28,6 +28,7 @@ const SellerRegister = () =>{
               }
               else{
                 localStorage.setItem('seller',JSON.stringify(result));
+                localStorage.removeItem('user');
                 setName("");
                 setEmail("");
                 setPassword("");

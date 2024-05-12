@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 import { useParams } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const CartProductInner = () => {
-    const user = JSON.parse(localStorage.getItem('user'))._id;
+    const navigate = useNavigate();
+    let user= JSON.parse(localStorage.getItem('user'));
+    if(user){
+        user = user._id;
+    }
      let ID = useParams();
     const [cartIteminner, setCartItems] = useState([]);
     const [editedQuantity, setEditedQuantity] = useState(1);
+    const [check,setCheck] = useState(false);
     useEffect(() => {
         getProduct();
     }, []);
@@ -27,16 +33,23 @@ const CartProductInner = () => {
         }
     }
     const addToCart = async () =>{
-        const productID = cartIteminner[0]._id;
-        let result = await fetch('http://localhost:5000/add-cart/' + user +'/' + productID + '/' + editedQuantity,{
-            method:'post',
-            headers:{
-                'Content-Type':'application/json'
-            },
-        });
-        if(result){
-            console.log("cart ADDED");
+        if(localStorage.getItem('user')){
+            const productID = cartIteminner[0]._id;
+            let result = await fetch('http://localhost:5000/add-cart/' + user +'/' + productID + '/' + editedQuantity,{
+                method:'post',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+            });
+            if(result){
+                console.log("cart ADDED");
+            }
         }
+        else{
+            alert('Please Login or Signup First');
+            navigate("/signup");
+        }
+        
     }
     const handleQuantityChange = (e, itemId,Total) => {
         const newQuantity = parseInt(e.target.value);
@@ -52,18 +65,24 @@ const CartProductInner = () => {
         }
     };
     const handleOrderNow = async () => {
-        const productID = cartIteminner[0]._id;
-        let obj = { product: productID, quantity: editedQuantity };
-        let array = [obj];
-        let result = await fetch('http://localhost:5000/add-order/' + user, {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(array)
-        });
-        if(result){
-            console.log('Order Added');
+        if(localStorage.getItem('user')){
+            const productID = cartIteminner[0]._id;
+            let obj = { product: productID, quantity: editedQuantity };
+            let array = [obj];
+            let result = await fetch('http://localhost:5000/add-order/' + user, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(array)
+            });
+            if(result){
+                console.log('Order Added');
+            }
+        }
+        else {
+            alert('Please Login or Signup First');
+            navigate("/signup");
         }
     };
 

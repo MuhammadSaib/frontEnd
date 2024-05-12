@@ -2,8 +2,10 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 import { Navbar, Nav, NavDropdown,Row,Col,Button } from 'react-bootstrap';
 import './Enter.css';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 const Enter = ({titleData,btnData,flag}) => {
+    const navigate = useNavigate();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -28,6 +30,7 @@ const Enter = ({titleData,btnData,flag}) => {
                 }
                 else{
                     localStorage.setItem('user',JSON.stringify(result));
+                    localStorage.removeItem('seller');
                     setName("");
                     setEmail("");
                     setPassword("");
@@ -35,6 +38,7 @@ const Enter = ({titleData,btnData,flag}) => {
                     setNumber("");
                     setAddress("");
                     alert('Customer Registered Successfully');
+                    navigate("/");
                 }
               }
               else{
@@ -64,6 +68,7 @@ const Enter = ({titleData,btnData,flag}) => {
                 }
                 else{
                     localStorage.setItem('user',JSON.stringify(result));
+                    localStorage.removeItem('seller');
                     console.log(result);
                     setName("");
                     setEmail("");
@@ -72,6 +77,8 @@ const Enter = ({titleData,btnData,flag}) => {
                     setNumber("");
                     setAddress("");
                     alert('User Logged in Successfully');
+                    navigate("/");
+
                 }
             }
             else{

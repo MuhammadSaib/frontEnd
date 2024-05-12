@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 
 const Cart = () => {
-    const user = JSON.parse(localStorage.getItem('user'))._id;
-    const [data, setData] = useState(null);
+    let user = localStorage.getItem('user');
+    if(localStorage.getItem('user')){
+        user = JSON.parse(localStorage.getItem('user'))._id;
+    }
+    const [data, setData] = useState([]);
     useEffect(() => {
         getData();
     },[]); 
@@ -21,14 +24,6 @@ const Cart = () => {
             console.log("showed");
         }
     }
-    // const [quantity, setQuantity] = useState(props.quantity || 0);
-
-    // const handleQuantityChange = (e) => {
-    //     const newQuantity = parseInt(e.target.value);
-    //     if (!isNaN(newQuantity) && newQuantity >= 0) {
-    //         setQuantity(newQuantity);
-    //     }
-    // };
 
     const handleDelete = (itemId) => {
         // Filter out the item with the given itemId from the cart data

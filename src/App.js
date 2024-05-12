@@ -19,14 +19,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { faCreditCard, faMoneyCheckAlt } from '@fortawesome/free-solid-svg-icons';
 import ManageProducts from './ManageProducts.js';
+import ShowSeller from './ShowSeller.js';
+import Logout from './Logout.js';
+import NavbarComponent from './Components/NavBar.js';
 
 
 function App() {
+  
   const [products,setProducts] = useState([]);
-useEffect(()=>{
-  getProducts();
-
-},[]);
   const dataa = [
     { id: "1", title: "Product Title", image: 'images/carts.jpg', highlights: 'Product highlights', quantity: 0 },
     { id: "2", title: "Product Title", image: 'images/carts.jpg', highlights: 'Product highlights', quantity: 0 },
@@ -73,67 +73,13 @@ let data1 = [
 
 
 
-const getProducts = async()=>{
-    let result = await fetch('http://localhost:5000/get-products',{
-      method:'get',
-      headers:{
-          'Content-Type':'application/json'
-      },
-  });
-  if(result.ok){
-    result =  await result.json();
-    setProducts(result);
-  }
-}
+
 return (
   
     <div className="App m-0 p-0">
      <Router>
      {/* <================ Header section Navbar start ===============> */}
-    <header className="App-header m-0 p-0 positionStick">
-      <Navbar className="navbar-color row justify-content-center m-0 p-0 " collapseOnSelect expand="lg">
-        <div className="col-10 m-0 p-1">
-          <div className="row">
-            <div className="col-2">
-             <Link to="/"><img src="images/logo1png.png" width="60px" className='img-fluid' alt="vgg" /></Link> 
-            </div>
-            <div className="col-lg-6 col-xl-6 col-md-8 col-sm-7 col-7 col-xs-7">
-              <div className="input-group mt-md-3" style={{ border: '1px solid white', borderRadius: '10px 4px 4px 10px' }}>
-                <input style={{ textDecoration: 'none', border: 'none' }} type="text" className="form-control" placeholder="Search" aria-label="Search" />
-                <button className="btn btn-outline-success" type="button">
-                  <i className="text-white fa fa-search"></i> {/* Bootstrap Icons search icon */}
-                </button>
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-2 col-sm-3 col-3 justify-content-end" style={{ display: 'flex', alignItems: 'center' }}>
-              <div className="fs-5" >
-                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                <Navbar.Collapse id="responsive-navbar-nav" className=" m-0 p-0">
-                  <Nav className="mt-1 p-0">
-                   <Link to="/cart"><div className="m-2">
-                      <i className="color-white fas fa-shopping-cart"></i>
-                    </div>
-                    </Link>
-                    <div className="ms-2">
-                      <Nav.Link href="/seller-register" className="fs-6 color-white">Become a seller</Nav.Link>
-                    </div>
-                  </Nav>
-                  <Nav className="m-0 p-0">
-                    <div className="ms-1">
-                      <Nav.Link href="/login" className="fs-6 color-white">Login</Nav.Link>
-                    </div>
-                    <div className="ms-1">
-                      <Nav.Link href="/signup" className="fs-6  color-white">Register</Nav.Link>
-                    </div>
-
-                  </Nav>
-                </Navbar.Collapse>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Navbar>
-    </header>
+   
     
   
      
@@ -143,28 +89,30 @@ return (
      <Routes>
         <Route path="/" element={
         <>
-
+        <NavbarComponent/>
         <div className="row  pt-5 bg-grey justify-content-center m-0 p-0">
           <div className="col-10 pt-3">
             <Carousel images={images} />
           </div>
         </div>
         <Categories data={data1} />
-        <Cards data={products} />
+        <Cards/>
         </>
       } />
-        <Route  path="/manage-products" element={<ManageProducts/> }/>
-        <Route  path="/seller-register" element={<SellerRegister/> }/>
-        <Route  path="/seller-login" element={<SellerLogin/> }/>
-        <Route  path="/cart" element={<Cart/> }/>
-        <Route path="/cardDetail/:id" element={<CartDetail/>}/>
-        <Route path="/add-product" element={<AddProduct/>}/>
-        <Route path="/add-product/:id" element={<AddProduct/>}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/signup" element={<Signup/>}/>
+        <Route  path="/manage-products" element={<><NavbarComponent/><ManageProducts/></> }/>
+        <Route  path="/seller-register" element={<><NavbarComponent/><SellerRegister/></>}/>
+        <Route  path="/seller-login" element={<><NavbarComponent/><SellerLogin/></> }/>
+        <Route  path="/cart" element={<><NavbarComponent/><Cart/></> }/>
+        <Route path="/cardDetail/:id" element={<><NavbarComponent/><CartDetail/></>}/>
+        <Route path="/add-product" element={<><NavbarComponent/><AddProduct/></>}/>
+        <Route path="/add-product/:id" element={<><NavbarComponent/><AddProduct/></>}/>
+        <Route path="/login" element={<><NavbarComponent/><Login/></>}/>
+        <Route path="/signup" element={<><NavbarComponent/><Signup/></>}/>
+        <Route path="/show-seller" element={<><NavbarComponent/><ShowSeller/></>}/>
+        <Route path="/logout" element={<><NavbarComponent/><Logout/></>}/>
     </Routes>
      </Router>
-     <div className="py-5 bg-light-grey">
+     <div className="py-5 bg-light-grey m-0">
     <div className="row pt-5 pb-5  m-0 justify-content-center">
      <div className="col-10 col-md-10 col-lg-10">
         <div className="row justify-content-center">

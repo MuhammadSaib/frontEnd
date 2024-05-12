@@ -56,8 +56,8 @@ const ManageProducts = () => {
                     <button 
                         className='mt-2 btn btn-danger' 
                         type='button' 
-                        onClick={() => changeStatus(item._id, item.Status === 'Inactive' ? 'Active' : 'Inactive')}>
-                        {item.Status === 'Inactive' ? 'Active' : 'Inactive'}
+                        onClick={() => changeStatus(item._id, item.SellerStatus === 'Inactive' ? 'Active' : 'Inactive')}>
+                        {item.SellerStatus === 'Inactive' ? 'Active' : 'Inactive'}
                     </button>
                 </div>
                </div>
