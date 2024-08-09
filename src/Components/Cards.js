@@ -22,7 +22,7 @@ const Cards = () => {
         return imageSource;
     }
     const getProducts = async()=>{
-        let result = await fetch('http://localhost:5000/get-products',{
+        let result = await fetch('https://shopshuttle.onrender.com/get-products',{
           method:'get',
           headers:{
               'Content-Type':'application/json'
@@ -42,15 +42,15 @@ const Cards = () => {
     }, []);
     return (
         <div className=" pb-5 m-0 p-0 bg-grey" >
+        <div className="h2 text-center pt-3 p-2" style={{fontFamily:'Tahoma, sans-serif',backgroundColor:'rgb(6, 158, 6)',color:'white'}}>Products</div>
         <div className="pt-5 m-0 p-0 row justify-content-center  pb-5">
          <div className="col-10">
-         <div className="h1 mb-5 mt-5 text-center pt-3 p-2">Products</div>
           <div className="row" >
             {data && data.map((item) => (
                 <div className="col-lg-2 col-xl-2 col-md-3 col-sm-12 col-xs-12 col-12"   key={item._id}>
                      <Link  style={{ textDecoration: 'none' }} className={`${item.Status === 'Sold Out' ? 'sold-out' : ''}`} to={"/cardDetail/" + item._id}><div className="p-2 mt-4  cart" >
                     {item.Status === 'Sold Out' && <span className="">Sold Out</span>}
-                    <img src={`http://localhost:5000/${item.photos[0]}`} className='img-fluid' alt="There is an image" />
+                    <img src={`https://shopshuttle.onrender.com/${item.photos[0].split('/').slice(5).join('/')}`} className='img-fluid' alt="There is an image" />
                     <p className="text-black title mt-1">{item.title}</p>
                     <div className="d-flex text-green">
                         <h5>Rs.</h5>

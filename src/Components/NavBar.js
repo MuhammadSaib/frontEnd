@@ -3,6 +3,9 @@ import { Navbar, Nav, NavDropdown,Row,Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import '../App.css';
 const NavbarComponent = () =>{
+    const search = () =>{
+        
+    }
     return(
         <header className="App-header m-0 p-0 positionStick">
         <Navbar className="navbar-color row justify-content-center m-0 " collapseOnSelect expand="lg">

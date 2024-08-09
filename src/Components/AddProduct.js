@@ -5,10 +5,11 @@
  import React from 'react';
  import './cards.css'; 
  import '@fortawesome/fontawesome-free/css/all.css';
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
  
  
  const AddProduct = () => {
+    const navigate = useNavigate();
     const [title,setTitle] = useState('');
     const [highlights,setHighlights] = useState('');
     const [category,setCategory] = useState('');
@@ -35,7 +36,7 @@ import { useParams } from 'react-router-dom';
         }
     },[]);
     const fetchSingleProduct = async () =>{
-        let data = await fetch('http://localhost:5000/get-product/' + id,{
+        let data = await fetch('https://shopshuttle.onrender.com/get-product/' + id,{
             method:'get',
             headers:{
                 'Content-Type':'application/json'
@@ -93,21 +94,23 @@ import { useParams } from 'react-router-dom';
                     formData.append('photos', file[i]);
                 }
                 if(status){
-                    let result = await fetch('http://localhost:5000/edit-product/' + sellerID + '/' + id,{
+                    let result = await fetch('https://shopshuttle.onrender.com/edit-product/' + sellerID + '/' + id,{
                         method: 'put',
                         body:formData,
                     });
                     if(result){
                         console.log(result);
+                        navigate("/");
                     }
                 }
                 else{
-                    let result = await fetch('http://localhost:5000/add-product/' + sellerID,{
+                    let result = await fetch('https://shopshuttle.onrender.com/add-product/' + sellerID,{
                         method: 'POST',
                         body:formData,
                     });
                     if(result){
                         console.log(result);
+                        // navigate("/");
                     }
                 }
             }

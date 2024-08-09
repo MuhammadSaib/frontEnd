@@ -5,6 +5,11 @@ import './Enter.css';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 const Enter = ({titleData,btnData,flag}) => {
+    const screenWidth = window.innerWidth;
+    let classes = '';
+    if (!flag && screenWidth > 768) {
+      classes = 'mt-5 pt-5';
+    }
     const navigate = useNavigate();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -12,11 +17,30 @@ const Enter = ({titleData,btnData,flag}) => {
     const [ConfirmPassword, setConfirmPassword] = useState('');
     const [contact_no, setNumber] = useState('');
     const [address, setAddress] = useState('');
+    function validatePassword(password) {
+        if (password.length < 8) {
+            return false;
+        }
+        if (!/\d/.test(password)) {
+            return false;
+        }
+        if (!/[a-zA-Z]/.test(password)) {
+            return false;
+        }
+        if (!/[a-z]/.test(password) || !/[A-Z]/.test(password)) {
+            return false;
+        }
+        return true;
+    }
     const submit = async () =>{
         if(flag){
+            if(name && email && password && ConfirmPassword && contact_no && address ){
             if(password === ConfirmPassword){
+             if (email.includes("@") && email.endsWith(".com")) {
+                if(contact_no.length==11){
+              if(validatePassword(password)){
               let obj = {name:name, email:email,password:password,contact_no:contact_no,address:address};
-              let result = await fetch ('http://localhost:5000/user-register',{
+              let result = await fetch ('https://shopshuttle.onrender.com/user-register',{
                 method:'post',
                 body:JSON.stringify(obj),
                 headers:{
@@ -40,25 +64,44 @@ const Enter = ({titleData,btnData,flag}) => {
                     alert('Customer Registered Successfully');
                     navigate("/");
                 }
+
+               }
+               else{
+                alert('Error');
+              }
+               
               }
               else{
-                alert('Error');
+                alert('Please Enter a Valid Password');
               }
             }
             else{
-                alert('PLease varify the password')
+                alert('Please Enter a valid Number');
+            }
+            }
+            else{
+                alert('Please Enter a Valid Email');
+            }
+            }
+            else{
+                alert('Your Password does not match with Confirm Password')
             }
         }
         else{
+            alert('Please Enter all the Fields');
+        }
+      }
+        else{
+            if(email && password){
             let obj = {email:email,password:password};
-            let result = await fetch ('http://localhost:5000/user-login',{
+            let result = await fetch ('https://shopshuttle.onrender.com/user-login',{
                 method:'post',
                 body:JSON.stringify(obj),
                 headers:{
                     'Content-Type':'application/json'
                 },
               });
-            if(result){
+              if(result){
                 result = await result.json();
                 if(result.result === 'Not Found'){
                     alert('Not Found');
@@ -80,11 +123,16 @@ const Enter = ({titleData,btnData,flag}) => {
                     navigate("/");
 
                 }
-            }
-            else{
+              }
+              else{
                 alert('Error');
               }
         }
+        else{
+            alert('Please Enter all the Fields');
+        }
+        }
+       
     }
     return ( 
         <div className="row mb-5 pb-5" style={{overflow:'hidden'}}>
@@ -115,7 +163,7 @@ const Enter = ({titleData,btnData,flag}) => {
             <div className="col-lg-6 col-xl-6 col-md-12 col-xs-12 col-sm-12 col-12">     
                 <div className="row mt-4 pt-4 justify-content-center">  
                    <div className="col-10" >  
-                        <div className="" >
+                        <div className={classes}>
                         <div className="mt-0 pt-0" >
                       
                          <div className="h3 text-center mb-4 ">{titleData}</div>  

@@ -18,7 +18,7 @@ const CartProductInner = () => {
     }, []);
     const getProduct = async()=>{
         console.log(ID.id);
-        let result = await fetch('http://localhost:5000/get-product/' + ID.id,{
+        let result = await fetch('https://shopshuttle.onrender.com/get-product/' + ID.id,{
             method:'get',
             headers:{
                 'Content-Type':'application/json'
@@ -35,7 +35,7 @@ const CartProductInner = () => {
     const addToCart = async () =>{
         if(localStorage.getItem('user')){
             const productID = cartIteminner[0]._id;
-            let result = await fetch('http://localhost:5000/add-cart/' + user +'/' + productID + '/' + editedQuantity,{
+            let result = await fetch('https://shopshuttle.onrender.com/add-cart/' + user +'/' + productID + '/' + editedQuantity,{
                 method:'post',
                 headers:{
                     'Content-Type':'application/json'
@@ -43,6 +43,7 @@ const CartProductInner = () => {
             });
             if(result){
                 console.log("cart ADDED");
+                navigate("/cart");
             }
         }
         else{
@@ -69,7 +70,7 @@ const CartProductInner = () => {
             const productID = cartIteminner[0]._id;
             let obj = { product: productID, quantity: editedQuantity };
             let array = [obj];
-            let result = await fetch('http://localhost:5000/add-order/' + user, {
+            let result = await fetch('https://shopshuttle.onrender.com/add-order/' + user, {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'
@@ -77,7 +78,9 @@ const CartProductInner = () => {
                 body: JSON.stringify(array)
             });
             if(result){
+                result = await result.json();
                 console.log('Order Added');
+                navigate("/order-page/" + result._id);
             }
         }
         else {
@@ -95,7 +98,7 @@ const CartProductInner = () => {
                     <div className='col-sm-12 col-md-8'>
                         <div className='row justify-content-center'>
                             <div className='col-sm-10 col-md-5 mb-3 mb-md-0'>
-                                <img src={'http://localhost:5000/' + cartItem.photos[0]} alt="Product" className="img-fluid border border-3 border-dark" />
+                                <img src={`https://shopshuttle.onrender.com/${cartItem.photos[0].split('/').slice(5).join('/')}`} alt="Product" className="img-fluid border border-3 border-dark" />
                             </div>
                             <div className='mb-3 mb-md-0 col-sm-10 col-md-7'>
                                 <div className='row'>
@@ -140,20 +143,14 @@ const CartProductInner = () => {
                     </div>
                     <div className='col-md-7 mt-md-3 mt-lg-0 col-lg-4 '>
                         <div className='row border border-dark'>
-                            <div className='col-12'>
-                                <h4>cartItem.storeName</h4>
+                            <div className='col-12 border-bottom border-dark pt-3 '>
+                                <h5>Delivery Days: {cartItem.deliveryDays}</h5>
                             </div>
                             <div className='col-12 border-bottom border-dark pt-3 '>
-                                <h6>"Address: " + cartItem.customerAddress</h6>
-                            </div>
-                            <div className='col-12 border-bottom border-dark pt-3 '>
-                                <h6>"Delivery Days: " + cartItem.deliveryDays</h6>
-                            </div>
-                            <div className='col-12 border-bottom border-dark pt-3 '>
-                                <h6>"Delivery Charges: " + cartItem.deliveryCharges</h6>
+                                <h5>Shipping Charges: {cartItem.deliveryCharges}</h5>
                             </div>
                             <div className='col-12 pt-3 '>
-                                <h6>"Payment Method: " + cartItem.payment</h6>
+                                <h5>Payment Method: {cartItem.PaymentMethod}</h5>
                             </div>
                         </div>
                     </div>

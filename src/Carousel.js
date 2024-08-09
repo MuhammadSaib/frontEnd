@@ -33,7 +33,7 @@ const Carousel = ({ images }) => {
   }, []);
 
   return (
-    <div className="carousel ">
+    <div className="carousel m-0 p-0 ">
       {/* <button className="prev" onClick={prevSlide}>&lt;</button> */}
       <img src={images[currentSlide]} alt={`Slide ${currentSlide}`} />
       {/* <button className="next" onClick={nextSlide}>&gt;</button> */}

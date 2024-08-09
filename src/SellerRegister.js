@@ -11,10 +11,29 @@ const SellerRegister = () =>{
     const [ConfirmPassword, setConfirmPassword] = useState('');
     const [contact_no, setNumber] = useState('');
     const [address, setAddress] = useState('');
+    function validatePassword(password) {
+      if (password.length < 8) {
+          return false;
+      }
+      if (!/\d/.test(password)) {
+          return false;
+      }
+      if (!/[a-zA-Z]/.test(password)) {
+          return false;
+      }
+      if (!/[a-z]/.test(password) || !/[A-Z]/.test(password)) {
+          return false;
+      }
+      return true;
+  }
     const submit = async () =>{
+      if(name && email && password && ConfirmPassword && contact_no && address){
         if(password === ConfirmPassword){
+          if (email.includes("@") && email.endsWith(".com")) {
+            if(contact_no.length==11){
+          if(validatePassword(password)){
             let obj = {name:name, email:email,password:password,contact_no:contact_no,address:address};
-            let result = await fetch ('http://localhost:5000/seller-register',{
+            let result = await fetch ('https://shopshuttle.onrender.com/seller-register',{
               method:'post',
               body:JSON.stringify(obj),
               headers:{
@@ -43,8 +62,25 @@ const SellerRegister = () =>{
             }
           }
           else{
-              alert('PLease varify the password')
+              alert('Please Enter a Valid Password')
           }
+        }
+        else{
+          alert('Please Enter Valid Number');
+        }
+         }
+         else{
+          alert('Please Enter a Valid Email');
+         }
+        }
+        else{
+          alert('Your Password does not match with the Confirm Password')
+        }
+        
+      }
+      else{
+        alert('Please Fill all the Fields');
+      }
     }
     return (
         <div className="container">

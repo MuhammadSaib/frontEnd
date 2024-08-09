@@ -30,7 +30,7 @@ const ShowSeller = () =>{
                         <div className="" style={{borderRadius:'20px', border:'2px solid green'}}>
                             <div className="row justify-content-center">
                             <div className="text-white container col-6 py-5">
-                               <Link className='' to="/manage-product" style={{textDecoration:'none',color:'green'}}>Manage Products</Link> 
+                               <Link className='' to="/manage-products" style={{textDecoration:'none',color:'green'}}>Manage Products</Link> 
                             </div>
                             </div>
                         </div>

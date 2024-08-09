@@ -7,9 +7,25 @@ import '@fortawesome/fontawesome-free/css/all.css';
 const SellerLogin = () =>{
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
+    function validatePassword(password) {
+        if (password.length < 8) {
+            return false;
+        }
+        if (!/\d/.test(password)) {
+            return false;
+        }
+        if (!/[a-zA-Z]/.test(password)) {
+            return false;
+        }
+        if (!/[a-z]/.test(password) || !/[A-Z]/.test(password)) {
+            return false;
+        }
+        return true;
+    }
     const submit = async () =>{
+        if(email && password){
         let obj = {email:email,password:password};
-        let result = await fetch ('http://localhost:5000/seller-login',{
+        let result = await fetch ('https://shopshuttle.onrender.com/seller-login',{
               method:'post',
               body:JSON.stringify(obj),
               headers:{
@@ -30,8 +46,11 @@ const SellerLogin = () =>{
                 alert('Seller Logged in Successfully')
             }
         }
-
     }
+    else{
+        alert('Please Enter all the Fields');
+    }
+     }
      return(
         <div className="container mb-5 ">
             <div className="row justify-content-center">

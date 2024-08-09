@@ -22,76 +22,39 @@ import ManageProducts from './ManageProducts.js';
 import ShowSeller from './ShowSeller.js';
 import Logout from './Logout.js';
 import NavbarComponent from './Components/NavBar.js';
+import OrderPage from './OrderPage.js';
 
 
 function App() {
-  
-  const [products,setProducts] = useState([]);
-  const dataa = [
-    { id: "1", title: "Product Title", image: 'images/carts.jpg', highlights: 'Product highlights', quantity: 0 },
-    { id: "2", title: "Product Title", image: 'images/carts.jpg', highlights: 'Product highlights', quantity: 0 },
-    { id: "3", title: "Product Title", image: 'images/carts.jpg', highlights: 'Product highlights', quantity: 0 }
-  ];
-  const dataa2 = [
-    {
-        id: "1",
-        title: "Product Title",
-        image: 'images/carts.jpg',
-        highlights: 'Product highlights',
-        quantity: 1,
-        customerAddress: "123 Main St, City",
-        storeName: "AK Mobile Store",
-        deliveryDays: "Monday - Friday",
-        deliveryCharges: 5.99,
-        payment: "Cash on delivery",
-        price: 19.99,
-        discountPrice: 15.99,
-        rating: 4.3
-    }
-  ];
-  
-  const images = [
+const images = [
     'images/img1.jpeg',
     'images/img2.jpeg',
     'images/img4.jpeg',
 ];
-
 let data1 = [
-    { id: "C1", name: 'Mobiles', img: 'images/img3.jpeg'},
-    { id: "C2", name: 'Accessories', img: 'images/img3.jpeg'},
-    { id: "C3", name: 'Laptops', img: 'images/img3.jpeg'},
-    { id: "C4", name: 'Beauty', img: 'images/img3.jpeg'},
-    { id: "C5", name: 'Electronics', img: 'images/img3.jpeg'},
-    { id: "C6", name: 'Kitchen', img: 'images/img3.jpeg'},
+    { id: "C1", name: 'Mobiles', img: 'images/mobiles.jpeg'},
+    { id: "C2", name: 'Accessories', img: 'images/accessories.webp'},
+    { id: "C3", name: 'Laptops', img: 'images/laptops.jpeg'},
+    { id: "C4", name: 'Beauty', img: 'images/beauty.jpeg'},
+    { id: "C5", name: 'Electronics', img: 'images/electronics.jpeg'},
+    { id: "C6", name: 'Kitchen', img: 'images/kitchen.jpeg'},
     { id: "C7", name: 'Furniture', img: 'images/img3.jpeg'},
-    { id: "C8", name: 'Sports', img: 'images/img3.jpeg'},
-    { id: "C9", name: 'Groceries', img: 'images/img3.jpeg'},
-    { id: "C10", name: 'Fashion', img: 'images/img3.jpeg'},
-    { id: "C11", name: 'Decoration', img: 'images/img3.jpeg'},
-    { id: "C12", name: 'Books', img: 'images/img3.jpeg'},
+    { id: "C8", name: 'Sports', img: 'images/sports.webp'},
+    { id: "C9", name: 'Groceries', img: 'images/Grocery.jpeg'},
+    { id: "C10", name: 'Fashion', img: 'images/fashion.webp'},
+    { id: "C11", name: 'Decoration', img: 'images/DECOR.jpeg'},
+    { id: "C12", name: 'Books', img: 'images/books.jpeg'},
 ];
-
-
-
-
 return (
   
     <div className="App m-0 p-0">
      <Router>
-     {/* <================ Header section Navbar start ===============> */}
-   
-    
-  
-     
-   
-   
-     {/* <================ Header section Navbar End ===============> */}
      <Routes>
         <Route path="/" element={
         <>
         <NavbarComponent/>
-        <div className="row  pt-5 bg-grey justify-content-center m-0 p-0">
-          <div className="col-10 pt-3">
+        <div className="row  bg-grey justify-content-center m-0 p-0">
+          <div className="col-12 m-0">
             <Carousel images={images} />
           </div>
         </div>
@@ -110,6 +73,7 @@ return (
         <Route path="/signup" element={<><NavbarComponent/><Signup/></>}/>
         <Route path="/show-seller" element={<><NavbarComponent/><ShowSeller/></>}/>
         <Route path="/logout" element={<><NavbarComponent/><Logout/></>}/>
+        <Route path="/order-page/:id" element={<><NavbarComponent/><OrderPage/></>}/>
     </Routes>
      </Router>
      <div className="py-5 bg-light-grey m-0">
@@ -122,20 +86,20 @@ return (
                     <li>Help Center</li>
                     <li>How to Buy</li>
                     <li>Returns & Refunds</li>
-                    <li>ShopShutter Shop</li>
+                    <li>ShopShuttle Shop</li>
                     <li>Purchase Protection</li>
-                    <li>Daraz Pick up Points</li>
+                    <li>ShopShuttle Pick up Points</li>
                 </ul>
             </div>
 
             <div className="col-12 col-md-5 col-lg-4">
-                <h3 style={{ color: 'rgb(6, 158, 6)' }}>ShopShutter</h3>
+                <h3 style={{ color: 'rgb(6, 158, 6)' }}>ShopShuttle</h3>
                 <ul className="list-unstyled">
                     <li>About Us</li>
                     <li>Contact Us</li>
-                    <li>ShopShutter Shop</li>
+                    <li>ShopShuttle Shop</li>
                     <li>Make Money With Us</li>
-                    <li>Sell on ShopShutter</li>
+                    <li>Sell on ShopShuttle</li>
                     <li>ShopShutter Exclusive</li>
                 </ul>
             </div>
